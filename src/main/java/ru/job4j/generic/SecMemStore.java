@@ -15,11 +15,11 @@ public class SecMemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean replace(String id, T model) {
-        if (findById(id) != null) {
-            list.put(id, model);
-            return true;
+        boolean elementFound = findById(id) != null;
+        if (elementFound) {
+            list.put(model.getId(), model);
         }
-        return false;
+        return elementFound;
     }
 
     @Override
