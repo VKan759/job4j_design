@@ -8,18 +8,12 @@ public class SecMemStore<T extends Base> implements Store<T> {
 
     @Override
     public void add(T model) {
-        if (findById(model.getId()) == null) {
-            list.put(model.getId(), model);
-        }
+        list.putIfAbsent(model.getId(), model);
     }
 
     @Override
     public boolean replace(String id, T model) {
-        boolean elementFound = findById(id) != null;
-        if (elementFound) {
-            list.put(model.getId(), model);
-        }
-        return elementFound;
+        return list.replace(id, list.get(id), model);
     }
 
     @Override
