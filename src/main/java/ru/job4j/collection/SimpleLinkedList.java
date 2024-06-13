@@ -48,9 +48,6 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                /*if (index > size) {
-                    throw new IndexOutOfBoundsException();
-                }*/
                 return current != null;
             }
 
