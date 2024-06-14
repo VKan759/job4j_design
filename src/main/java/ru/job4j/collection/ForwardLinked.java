@@ -34,7 +34,6 @@ public class ForwardLinked<T> implements Iterable<T> {
         modCount++;
     }
 
-
     public T get(int index) {
         Objects.checkIndex(index, size);
         Node<T> temp = head;
