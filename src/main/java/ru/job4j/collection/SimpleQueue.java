@@ -6,8 +6,8 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> input = new SimpleStack<>();
     private final SimpleStack<T> output = new SimpleStack<>();
 
-    int inputSize;
-    int outputSize;
+    private int inputSize;
+    private int outputSize;
 
     public T poll() {
         if (inputSize == 0 || outputSize < 0) {
