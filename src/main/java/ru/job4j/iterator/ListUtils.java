@@ -57,6 +57,7 @@ public class ListUtils {
            while (secondListIterator.hasNext()) {
                if (value == secondListIterator.next()) {
                    listIterator.remove();
+                   break;
                }
            }
        }

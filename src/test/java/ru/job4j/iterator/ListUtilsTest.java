@@ -2,8 +2,10 @@ package ru.job4j.iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.*;
 
 class ListUtilsTest {
@@ -59,6 +61,4 @@ class ListUtilsTest {
         ListUtils.removeAll(input, List.of(3, 2));
         assertThat(input).containsSequence(1, 5);
     }
-
-
 }
