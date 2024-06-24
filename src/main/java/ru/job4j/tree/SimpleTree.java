@@ -1,12 +1,32 @@
 package ru.job4j.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class SimpleTree<E> implements Tree<E> {
     private final Node<E> root;
 
     public SimpleTree(final E root) {
         this.root = new Node<>(root);
+    }
+
+    public boolean isBinary() {
+        return findByPredicate(x -> x.children.size() <= 2).isPresent();
+    }
+
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
+        Optional<Node<E>> result = Optional.empty();
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(root);
+        while (!data.isEmpty()) {
+            Node<E> element = data.poll();
+            result = condition.test(element) ? Optional.of(element) : Optional.empty();
+            if (result.isEmpty()) {
+                break;
+            }
+            data.addAll(element.children);
+        }
+        return result;
     }
 
     @Override
