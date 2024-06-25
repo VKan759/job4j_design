@@ -14,15 +14,13 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     private MapEntry<K, V>[] table = new MapEntry[capacity];
 
-
     @Override
     public boolean put(K key, V value) {
         if (count >= capacity * LOAD_FACTOR) {
             expand();
         }
         boolean result = false;
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
+        int index = findIndex(key);
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             modCount++;
@@ -33,7 +31,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     }
 
     private int hash(int hashCode) {
-        return hashCode == 65536 ? 65537 : hashCode % 65536;
+        return hashCode ^ hashCode >>> 16;
     }
 
     private int indexFor(int hash) {
@@ -45,13 +43,22 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (MapEntry<K, V> element : table) {
             if (element != null) {
-                int hash = hash(Objects.hashCode(element.key));
-                int index = indexFor(hash);
+                int index = findIndex(element.key);
                 newTable[index] = element;
             }
         }
         table = newTable;
         modCount++;
+    }
+
+    private int findIndex(K key) {
+        int hash = hash(Objects.hashCode(key));
+        return indexFor(hash);
+    }
+
+    private boolean compareKeys(K firstKey, K secondKey) {
+        return Objects.hashCode(firstKey) == Objects.hashCode(secondKey)
+                && Objects.equals(firstKey, secondKey);
     }
 
     @Override
@@ -60,20 +67,17 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         int index = indexFor(hash);
         MapEntry<K, V> element = table[index];
         return element != null
-                && Objects.hashCode(key) == Objects.hashCode(element.key)
-                && Objects.equals(key, element.key)
+                && compareKeys(key, element.key)
                 ? table[index].value : null;
     }
 
     @Override
     public boolean remove(K key) {
         boolean result = false;
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
+        int index = findIndex(key);
         MapEntry<K, V> element = table[index];
         if (element != null
-                && Objects.hashCode(key) == Objects.hashCode(element.key)
-                && Objects.equals(key, element.key)) {
+                && compareKeys(key, element.key)) {
             table[index] = null;
             modCount--;
             count--;
