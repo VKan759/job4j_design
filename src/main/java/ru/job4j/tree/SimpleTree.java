@@ -19,12 +19,13 @@ public class SimpleTree<E> implements Tree<E> {
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(root);
         while (!data.isEmpty()) {
-            Node<E> element = data.poll();
+            Node<E> element = data.peek();
             result = condition.test(element) ? Optional.of(element) : Optional.empty();
             if (result.isEmpty()) {
                 break;
             }
             data.addAll(element.children);
+            data.poll();
         }
         return result;
     }
