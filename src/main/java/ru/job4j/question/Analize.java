@@ -1,31 +1,43 @@
 package ru.job4j.question;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Analize {
 
     public static Info diff(Set<User> previous, Set<User> current) {
-        Info result = new Info(0, 0, 0);
-        Set<User> copyCurrent = new HashSet<>(current);
-        Set<User> copyPrevious = new HashSet<>(previous);
-        int deleted;
+        int deleted = 0;
         int changed = 0;
-        int added;
-
+        int added = 0;
+        Info result = new Info(added, changed, deleted);
+        Set<User> copyCurrent = new TreeSet<>(Comparator.comparingInt(User::getId));
+        copyCurrent.addAll(current);
+        Set<User> copyPrevious = new TreeSet<>(Comparator.comparingInt(User::getId));
+        copyPrevious.addAll(previous);
         copyCurrent.removeAll(previous);
         copyPrevious.removeAll(current);
 
-        for (User currentUser : copyCurrent) {
+        if (!copyCurrent.isEmpty()) {
+            Iterator<User> currentIterator = copyCurrent.iterator();
+            User currentUser = currentIterator.next();
             for (User previousUser : copyPrevious) {
-                if (currentUser.getId() == previousUser.getId() && !currentUser.getName().equals(previousUser.getName())) {
+                if (previousUser.getId() < currentUser.getId()) {
+                    continue;
+                }
+                if (previousUser.getId() == currentUser.getId()
+                        && !previousUser.getName().equals(currentUser.getName())
+                ) {
                     changed++;
+                }
+                if (currentIterator.hasNext()) {
+                    currentUser = currentIterator.next();
+                } else {
+                    break;
                 }
             }
         }
 
+        deleted = !copyCurrent.isEmpty() ? copyPrevious.size() - changed : copyPrevious.size();
         added = copyCurrent.size() - changed;
-        deleted = copyPrevious.size() - changed;
 
         result.setChanged(changed);
         result.setDeleted(deleted);
