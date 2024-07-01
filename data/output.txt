@@ -1,2 +1,6 @@
-Hello, world!
-This is an example without autoFlush.
+login=login
+password=password
+url=url
+login=login
+password=password
+url=url
