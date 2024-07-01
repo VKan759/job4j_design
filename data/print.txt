@@ -1,0 +1,2 @@
+Сообщение printLn
+Из PrintStream в FileOutputStreamНовое сообщение
