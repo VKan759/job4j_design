@@ -19,7 +19,7 @@ public class LogFilter {
                         boolean lineIsNotEmpty = false;
                         List<String> list = List.of(x.split(" "));
                         if (list.size() >= 2) {
-                            Object[] array =  list.toArray();
+                            String[] array =  list.toArray(new String[]{});
                             lineIsNotEmpty = array[array.length - 2].equals("404");
                         }
                         return lineIsNotEmpty;
