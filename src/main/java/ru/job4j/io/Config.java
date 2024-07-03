@@ -17,7 +17,7 @@ public class Config {
 
     public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            reader.lines().filter(x -> !x.contains("#") && !x.isEmpty()).forEach(
+            reader.lines().filter(x -> !x.startsWith("#") && !x.isEmpty()).forEach(
                     x -> {
                         String[] keyValue = List.of(x.split("=")).toArray(new String[]{});
                         if (keyValue.length < 2
