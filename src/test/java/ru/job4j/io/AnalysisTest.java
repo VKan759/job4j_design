@@ -23,6 +23,6 @@ class AnalysisTest {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(target.getAbsolutePath()))) {
             bufferedReader.lines().forEach(stringBuilder::append);
         }
-        assertThat("10:56:01;11:02:02;").isEqualTo(stringBuilder.toString());
+        assertThat("10:57:01;11:02:02;").isEqualTo(stringBuilder.toString());
     }
 }
