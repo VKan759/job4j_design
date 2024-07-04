@@ -8,7 +8,6 @@ public class Analysis {
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              BufferedWriter writer = new BufferedWriter(new FileWriter(target))) {
             LinkedList<String> buffer = new LinkedList<>();
-            StringBuilder bufferResult = new StringBuilder();
 
             reader.lines()
                     .forEach(buffer::add);
@@ -18,19 +17,18 @@ public class Analysis {
                     "400") ? available : isNotAvailable;
 
             for (String line : buffer) {
-                if (!line.startsWith("400") && !line.startsWith("500")) {
-                    if (available != status) {
-                        bufferResult.append(line.substring(4)).append(";").append(System.lineSeparator());
-                        status = available;
-                        continue;
+                if (line.startsWith("400") || line.startsWith("500")) {
+                    if (status != isNotAvailable) {
+                        writer.write(line.substring(4) + ";");
+                        status = isNotAvailable;
                     }
+                    continue;
                 }
-                if (status != isNotAvailable) {
-                    bufferResult.append(line.substring(4)).append(";");
-                    status = isNotAvailable;
+                if (status != available) {
+                    writer.write(line.substring(4) + ";" + System.lineSeparator());
+                    status = available;
                 }
             }
-            writer.write(String.valueOf(bufferResult));
         } catch (
                 IOException e) {
             e.printStackTrace();
