@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.LinkedList;
 
 public class Analysis {
     public void unavailable(String source, String target) {
