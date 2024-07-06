@@ -3,6 +3,12 @@ package ru.job4j.io;
 import java.io.*;
 
 public class Analysis {
+
+    public String formatToLine(String line, boolean available) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(line.substring(4)).append(";");
+        return available ? stringBuilder.toString() : stringBuilder.append(System.lineSeparator()).toString();
+    }
     public void unavailable(String source, String target) {
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              BufferedWriter writer = new BufferedWriter(new FileWriter(target))) {
@@ -15,12 +21,12 @@ public class Analysis {
             while (line != null) {
                 if (line.startsWith("400") || line.startsWith("500")) {
                     if (status != isNotAvailable) {
-                        writer.write(line.substring(4) + ";");
+                        writer.write(formatToLine(line, true));
                         status = isNotAvailable;
                     }
                 } else {
                     if (status != available) {
-                        writer.write(line.substring(4) + ";" + System.lineSeparator());
+                        writer.write(formatToLine(line, false));
                         status = available;
                     }
                 }
