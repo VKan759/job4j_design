@@ -8,21 +8,23 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Search {
-    public static void main(String[] args, String type) throws IOException {
-        validate(args, type);
+    public static void main(String[] args) throws IOException {
+        validate(args);
         Path start = Paths.get(".");
-        search(start, path -> path.toFile().getName().endsWith(type)).forEach(System.out::println);
+        search(start, path -> path.toFile().getName().endsWith(".txt")).forEach(System.out::println);
     }
 
-    public static void validate(String[] args, String type) throws IllegalArgumentException {
-        if (args.length == 0 || args[0].endsWith(type)) {
-            throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
+    public static void validate(String[] args) throws IllegalArgumentException {
+        if (args.length != 2) {
+            throw new IllegalArgumentException("В параметрах не указаны файл/расширение");
         }
-        for (String string : args) {
-            if (!string.endsWith(type)) {
-                throw new IllegalArgumentException("Incorrect type of file");
-            }
+        if (!Files.exists(Path.of(args[0]))) {
+            throw new IllegalArgumentException("Файл не существует");
         }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException("Не указано расширение файла");
+        }
+
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
