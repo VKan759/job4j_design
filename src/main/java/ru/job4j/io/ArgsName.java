@@ -9,11 +9,6 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
-        if (key.equals("-")
-        || !key.startsWith("-")) {
-            throw new IllegalArgumentException("Incorrect key");
-        }
-
         if (!values.containsKey(key)) {
             throw new IllegalArgumentException("This key: '" + key + "' is missing");
         }
