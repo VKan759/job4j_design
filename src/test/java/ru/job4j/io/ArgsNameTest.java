@@ -96,7 +96,7 @@ class ArgsNameTest {
 
     @Test
     void whenValueIsAbsent() {
-        assertThatThrownBy(()->ArgsName.of(new String[]{"-dfg=512", "-request="}))
+        assertThatThrownBy(() -> ArgsName.of(new String[]{"-dfg=512", "-request="}))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining("Error: This argument '-request=' does not contain a value");
