@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
+import static java.nio.file.FileVisitResult.SKIP_SUBTREE;
 
 public class SearchFiles implements FileVisitor<Path> {
 
@@ -23,12 +24,16 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+        if (dir.toFile().isHidden()) {
+            return SKIP_SUBTREE;
+        }
+        paths.add(dir);
         return CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        paths.add(file.getFileName());
+        paths.add(file);
         return CONTINUE;
     }
 
