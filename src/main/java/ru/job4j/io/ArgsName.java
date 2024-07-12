@@ -15,8 +15,11 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void parse(String[] args) {
-        Arrays.stream(args).forEach(x -> {
+    private void validate(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Arguments not passed to program");
+        }
+         Arrays.stream(args).forEach(x -> {
             if (!x.contains("=")) {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain an "
                         + "equal sign");
@@ -25,32 +28,30 @@ public class ArgsName {
                 throw new IllegalArgumentException("Error: This argument '" + x
                         + "' does not start with a '-' character");
             }
-            int index = 0;
-            String key;
-            String value;
-            char[] chars = x.toCharArray();
-            for (char c : chars) {
-                if (c == '=') {
-                    break;
-                }
-                index++;
-            }
-            key = x.substring(1, index);
-            value = x.substring(index + 1);
-            if (key.isEmpty()) {
+            if (x.charAt(1) == '=') {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain a key");
             }
-            if (value.isEmpty()) {
+             int equalsSignIndex = x.indexOf("=");
+            if (x.substring(equalsSignIndex + 1).isEmpty()) {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain a value");
             }
+
+        });
+    }
+
+    private void parse(String[] args) {
+        validate(args);
+        Arrays.stream(args).forEach(x -> {
+            String key;
+            String value;
+            int index = x.indexOf("=");
+            key = x.substring(1, index);
+            value = x.substring(index + 1);
             values.put(key, value);
         });
     }
 
     public static ArgsName of(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Arguments not passed to program");
-        }
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
