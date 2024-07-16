@@ -19,7 +19,7 @@ public class ArgsName {
         if (args.length == 0) {
             throw new IllegalArgumentException("Arguments not passed to program");
         }
-         Arrays.stream(args).forEach(x -> {
+        Arrays.stream(args).forEach(x -> {
             if (!x.contains("=")) {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain an "
                         + "equal sign");
@@ -31,7 +31,7 @@ public class ArgsName {
             if (x.charAt(1) == '=') {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain a key");
             }
-             int equalsSignIndex = x.indexOf("=");
+            int equalsSignIndex = x.indexOf("=");
             if (x.substring(equalsSignIndex + 1).isEmpty()) {
                 throw new IllegalArgumentException("Error: This argument '" + x + "' does not contain a value");
             }
