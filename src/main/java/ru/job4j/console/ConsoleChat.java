@@ -22,15 +22,15 @@ public class ConsoleChat {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         String string = "";
-        while (!string.equalsIgnoreCase(OUT)) {
+        while (!OUT.equalsIgnoreCase(string)) {
             string = scanner.nextLine();
-            if (string.equalsIgnoreCase(STOP)) {
+            if (STOP.equalsIgnoreCase(string)) {
                 log.add(STOP.concat(System.lineSeparator()));
-                while (!string.equalsIgnoreCase(CONTINUE)) {
+                while (!CONTINUE.equalsIgnoreCase(string)) {
                     string = scanner.nextLine();
                 }
             }
-            if (!string.equalsIgnoreCase(OUT)) {
+            if (!OUT.equalsIgnoreCase(string)) {
                 log.add(string.concat(System.lineSeparator()));
                 String answer = readPhrases().get((int) (readPhrases().size() * Math.random()));
                 System.out.println(answer);
