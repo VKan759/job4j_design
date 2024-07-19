@@ -4,8 +4,6 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
 
-// -path=file.csv -delimiter=;  -out=stdout -filter=name,age
-
 public class CSVReader {
 
     private static void validate(ArgsName argsName) {
