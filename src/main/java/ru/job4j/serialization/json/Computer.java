@@ -11,12 +11,12 @@ public class Computer {
     Display display;
     String[] components;
 
-    public boolean isPortable() {
-        return portable;
-    }
 
     public int getMemoryValue() {
         return memoryValue;
+    }
+    public boolean isPortable() {
+        return portable;
     }
 
     public String getName() {
