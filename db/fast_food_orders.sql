@@ -45,4 +45,4 @@ join orders o on o.customer_id = c."id"
 join dishes d on o.dish_id = d."id"
 join restaurants r on d.id_restaraunt = r."id"
 group by c."name", r.name
-having count(r."id") > 3; 
+having count(r."name") > 3;
