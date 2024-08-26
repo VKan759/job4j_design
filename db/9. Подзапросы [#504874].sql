@@ -7,7 +7,7 @@ CREATE TABLE CUSTOMERS (
 );
 
 INSERT INTO
-	CUSTOMERS (FIRST_NAME, LAST_NAME, AGE, COUNTRY)
+	customers (first_name, last_name, age, country)
 VALUES
 	('Ivan', 'Ivanov', '30', 'Kazakhstan'),
 	('Sveta', 'Svetikova', '22', 'Russia'),
@@ -17,13 +17,13 @@ VALUES
 SELECT
 	*
 FROM
-	CUSTOMERS
+	customers
 WHERE
-	AGE = (
+	age = (
 		SELECT
-			MIN(AGE)
+			min(age)
 		FROM
-			CUSTOMERS
+			customers
 	);
 
 CREATE TABLE ORDERS (
@@ -33,7 +33,7 @@ CREATE TABLE ORDERS (
 );
 
 INSERT INTO
-	ORDERS (AMOUNT, CUSTOMER_ID)
+	orders (amount, customer_id)
 VALUES
 	(111, 1),
 	(333, 3);
@@ -41,11 +41,11 @@ VALUES
 SELECT
 	*
 FROM
-	CUSTOMERS
+	customers
 WHERE
-	ID NOT IN (
+	id NOT IN (
 		SELECT
-			CUSTOMER_ID
+			customer_id
 		FROM
-			ORDERS
+			orders
 	);
