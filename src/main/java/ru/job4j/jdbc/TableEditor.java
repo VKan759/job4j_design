@@ -27,33 +27,28 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("create table %s();", tableName));
-        }
+        String string = String.format("create table %s();", tableName);
+        runStatement(string);
     }
 
     public void dropTable(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("drop table %s;", tableName));
-        }
+        String string = String.format("drop table %s;", tableName);
+        runStatement(string);
     }
 
     public void addColumn(String tableName, String columnName, String type) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("alter table %s add column %s %s", tableName, columnName, type));
-        }
+        String string = String.format("alter table %s add column %s %s", tableName, columnName, type);
+        runStatement(string);
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("alter table %s drop column %s", tableName, columnName));
-        }
+        String string = String.format("alter table %s drop column %s", tableName, columnName);
+        runStatement(string);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("Alter table %s rename column %s to %s;", tableName, columnName, newColumnName));
-        }
+        String string = String.format("Alter table %s rename column %s to %s;", tableName, columnName, newColumnName);
+        runStatement(string);
     }
 
     public String getTableScheme(String tableName) throws Exception {
@@ -79,6 +74,14 @@ public class TableEditor implements AutoCloseable {
     public void close() throws Exception {
         if (connection != null) {
             connection.close();
+        }
+    }
+
+    private void runStatement(String sql) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
